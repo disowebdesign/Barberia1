@@ -186,10 +186,10 @@ a { text-decoration:none; color:inherit; }
   overflow: hidden;
 }
 .hero-bg { position: absolute; inset: 0; }
-.hero-bg-img { filter: brightness(.45) saturate(.85); transform-origin: center; }
+.hero-bg-img { filter: brightness(.7) saturate(.9); transform-origin: center; }
 .hero-bg-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(13,13,13,.55) 0%, rgba(13,13,13,.35) 45%, rgba(13,13,13,.85) 100%);
+  background: linear-gradient(180deg, rgba(13,13,13,.35) 0%, rgba(13,13,13,.25) 45%, rgba(13,13,13,.75) 100%);
 }
 
 .hero-logo {
