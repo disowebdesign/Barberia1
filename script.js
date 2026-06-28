@@ -88,7 +88,7 @@ if (track) {
 }
 
 /* ── SCROLL REVEAL ── */
-const revealEls = document.querySelectorAll('.reveal-el');
+const revealEls = document.querySelectorAll('.reveal-el, .card-reveal');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
     if (entry.isIntersecting) {
