@@ -14,6 +14,7 @@
   --font-display: 'Playfair Display', Georgia, serif;
   --font-sans: 'Tenor Sans', system-ui, sans-serif;
   --font-body: 'Lato', system-ui, sans-serif;
+  --font-gothic: 'UnifrakturMaguntia', cursive;
   --ease: cubic-bezier(0.16,1,0.3,1);
   --radius: 20px;
 }
@@ -65,42 +66,44 @@ a { text-decoration:none; color:inherit; }
 }
 .book-float-line { width: 20px; height: 1px; background: var(--black); opacity: .6; }
 
-/* ── NAVBAR (pegada abajo del hero) ── */
+/* ── NAVBAR (cápsula flotante estilo Porem) ── */
 .navbar {
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 50;
-  padding: 0 60px;
-  background: rgba(13,13,13,0.92);
+  position: absolute; left: 50%; bottom: 32px; z-index: 50;
+  transform: translateX(-50%);
+  padding: 0;
+  background: rgba(13,13,13,0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-top: 1px solid var(--glass-border);
+  border: 1px solid var(--glass-border);
+  border-radius: 100px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.35);
 }
 .navbar-inner {
   display: flex; align-items: center; justify-content: center;
-  height: 76px;
+  height: 60px;
+  padding: 0 16px;
 }
-.nav-links { display: flex; gap: 40px; align-items: center; }
+.nav-links { display: flex; gap: 8px; align-items: center; }
 .nav-link {
   font-family: var(--font-sans);
   font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
-  color: rgba(242,237,230,0.6);
+  color: rgba(242,237,230,0.65);
   transition: color .3s;
   cursor: none; position: relative;
+  padding: 10px 18px;
+  border-radius: 100px;
 }
-.nav-link::after {
-  content: ''; position: absolute; bottom: -4px; left: 0;
-  width: 0; height: 1px; background: var(--gold);
-  transition: width .4s var(--ease);
-}
-.nav-link:hover { color: var(--cream); }
-.nav-link:hover::after { width: 100%; }
+.nav-link::after { display: none; }
+.nav-link:hover { color: var(--cream); background: rgba(255,255,255,0.06); }
 .nav-link-cta {
   color: var(--black); background: var(--gold);
   border: 1px solid var(--gold);
-  padding: 10px 22px; border-radius: 2px;
+  padding: 12px 26px; border-radius: 100px;
+  margin-left: 8px;
   transition: all .3s;
 }
 .nav-link-cta::after { display: none; }
-.nav-link-cta:hover { background: #d4b878; }
+.nav-link-cta:hover { background: #d4b878; color: var(--black); }
 
 .nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: none; }
 .nav-burger span { display: block; width: 24px; height: 1px; background: var(--cream); transition: all .4s var(--ease); }
@@ -190,7 +193,7 @@ a { text-decoration:none; color:inherit; }
 }
 
 .hero-logo {
-  position: absolute; top: 48px; left: 50%;
+  position: absolute; top: 40px; left: 50%;
   transform: translateX(-50%);
   z-index: 3;
   display: flex; flex-direction: column; align-items: center; line-height: 1;
@@ -200,11 +203,26 @@ a { text-decoration:none; color:inherit; }
   font-family: var(--font-body);
   font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
   color: var(--gold); font-weight: 300;
+  margin-bottom: 2px;
 }
 .hero-logo-main {
-  font-family: var(--font-display);
-  font-size: 28px; font-weight: 500; letter-spacing: 1px;
+  font-family: var(--font-gothic);
+  font-size: 52px; font-weight: 400; letter-spacing: 1px;
   color: var(--cream);
+  line-height: 1;
+  text-shadow: 0 2px 12px rgba(0,0,0,.4);
+}
+.hero-logo-orn {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 4px;
+}
+.hero-logo-orn::before, .hero-logo-orn::after {
+  content: ''; width: 26px; height: 1px; background: var(--gold); opacity: .5;
+}
+.hero-logo-orn span {
+  font-family: var(--font-sans);
+  font-size: 8px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); opacity: .8;
 }
 
 .hero-content {
@@ -575,8 +593,8 @@ a { text-decoration:none; color:inherit; }
 }
 @media (max-width: 900px) {
   .maestro-inner, .reservar-inner { grid-template-columns: 1fr; gap: 48px; }
-  .navbar { padding: 0 20px; }
-  .navbar-inner { height: 64px; }
+  .navbar { left: auto; right: 20px; transform: none; bottom: 20px; border-radius: 50%; }
+  .navbar-inner { height: 56px; padding: 0; width: 56px; }
   .nav-links { display: none; }
   .nav-burger { display: flex; }
   .servicios, .maestro, .reservar { padding: 80px 0; }
@@ -587,6 +605,7 @@ a { text-decoration:none; color:inherit; }
   .footer-links { flex-wrap: wrap; justify-content: center; }
   .hero-content { padding: 40px 24px 100px; }
   .hero-logo { top: 24px; }
+  .hero-logo-main { font-size: 38px; }
   .filosofia-content { padding: 0 24px; }
   .form-row { grid-template-columns: 1fr; }
 }
