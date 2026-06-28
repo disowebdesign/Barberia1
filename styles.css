@@ -207,14 +207,14 @@ a { text-decoration:none; color:inherit; }
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
   background: var(--black);
-  padding: 90px 24px 140px;
+  padding: 24px;
 }
 .hero-bg {
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: min(1100px, 88vw);
-  height: min(640px, 72vh);
+  width: min(1650px, 96vw);
+  height: min(960px, 88vh);
   border-radius: 18px;
   overflow: hidden;
   border: 10px solid var(--cream);
@@ -627,8 +627,8 @@ a { text-decoration:none; color:inherit; }
   .bento-wide { grid-column: span 2; }
 }
 @media (max-width: 900px) {
-  .hero { padding: 70px 16px 130px; }
-  .hero-bg { width: 94vw; height: 56vh; border-width: 6px; border-radius: 12px; }
+  .hero { padding: 16px; }
+  .hero-bg { width: 96vw; height: 78vh; border-width: 6px; border-radius: 12px; }
   .maestro-inner, .reservar-inner { grid-template-columns: 1fr; gap: 48px; }
   .navbar { left: auto; right: 20px; transform: none; bottom: 20px; border-radius: 50%; }
   .navbar-inner { height: 56px; padding: 0; width: 56px; }
