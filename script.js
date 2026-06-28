@@ -25,10 +25,9 @@ document.querySelectorAll('a, button, .bento-cell, .maestro-img-wrap, input, sel
 document.addEventListener('mousedown', () => document.body.classList.add('is-clicking'));
 document.addEventListener('mouseup',   () => document.body.classList.remove('is-clicking'));
 
-/* ── NAVBAR SCROLL ── */
+/* ── BOOK FLOAT VISIBILITY ── */
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 60);
   // Show/hide float button
   const bookFloat = document.getElementById('bookFloat');
   if (bookFloat) bookFloat.style.opacity = window.scrollY > 200 ? '1' : '0';
