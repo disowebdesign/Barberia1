@@ -69,8 +69,9 @@ a { text-decoration:none; color:inherit; }
 
 /* ── NAVBAR (cápsula flotante estilo Porem) ── */
 .navbar {
-  position: absolute; left: 50%; bottom: 32px; z-index: 50;
-  transform: translateX(-50%);
+  position: absolute; left: 0; right: 0; bottom: 32px; z-index: 50;
+  margin: 0 auto;
+  width: fit-content;
   padding: 0;
   background: rgba(13,13,13,0.85);
   backdrop-filter: blur(16px);
@@ -205,17 +206,30 @@ a { text-decoration:none; color:inherit; }
   min-height: 100vh;
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
+  background: var(--black);
+  padding: 90px 24px 140px;
 }
-.hero-bg { position: absolute; inset: 0; }
-.hero-bg-img { filter: brightness(.7) saturate(.9); transform-origin: center; }
+.hero-bg {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(1100px, 88vw);
+  height: min(640px, 72vh);
+  border-radius: 18px;
+  overflow: hidden;
+  border: 10px solid var(--cream);
+  box-shadow: 0 30px 80px rgba(0,0,0,.55);
+}
+.hero-bg-img { filter: brightness(.75) saturate(.92); transform-origin: center; }
 .hero-bg-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(13,13,13,.35) 0%, rgba(13,13,13,.25) 45%, rgba(13,13,13,.75) 100%);
+  background: linear-gradient(180deg, rgba(13,13,13,.3) 0%, rgba(13,13,13,.2) 45%, rgba(13,13,13,.7) 100%);
 }
 
 .hero-logo {
-  position: absolute; top: 40px; left: 50%;
-  transform: translateX(-50%);
+  position: absolute; top: 40px; left: 0; right: 0;
+  margin: 0 auto;
+  width: fit-content;
   z-index: 3;
   display: flex; flex-direction: column; align-items: center; line-height: 1;
   cursor: none;
@@ -613,6 +627,8 @@ a { text-decoration:none; color:inherit; }
   .bento-wide { grid-column: span 2; }
 }
 @media (max-width: 900px) {
+  .hero { padding: 70px 16px 130px; }
+  .hero-bg { width: 94vw; height: 56vh; border-width: 6px; border-radius: 12px; }
   .maestro-inner, .reservar-inner { grid-template-columns: 1fr; gap: 48px; }
   .navbar { left: auto; right: 20px; transform: none; bottom: 20px; border-radius: 50%; }
   .navbar-inner { height: 56px; padding: 0; width: 56px; }
