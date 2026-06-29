@@ -36,10 +36,13 @@
     <a href="#reservar" class="mm-link">Reservar</a>
   </div>
 
-  <main>
+  <!-- SLIDE PROGRESS DOTS -->
+  <div class="slide-progress" id="slideProgress"></div>
+
+  <main class="slides-main" id="slidesMain">
 
     <!-- ══ HERO ══ -->
-    <section class="hero" id="hero">
+    <section class="hero slide" id="hero">
       <div class="hero-bg">
         <img src="img/hero-bg.jpg" alt="The Sovereign" class="hero-bg-img" id="heroBgImg">
         <div class="hero-bg-overlay"></div>
@@ -85,111 +88,66 @@
       </nav>
     </section>
 
-    <!-- ══ MARQUEE ══ -->
-    <div class="marquee-wrap">
-      <div class="marquee-track" id="marqueeTrack">
-        <span>Corte Signature</span><span class="mdot">✦</span>
-        <span>Barba Ritual</span><span class="mdot">✦</span>
-        <span>Whisky Bar</span><span class="mdot">✦</span>
-        <span>Tratamientos</span><span class="mdot">✦</span>
-        <span>Hot Towel</span><span class="mdot">✦</span>
-        <span>The Sovereign Experience</span><span class="mdot">✦</span>
-        <span>Corte Signature</span><span class="mdot">✦</span>
-        <span>Barba Ritual</span><span class="mdot">✦</span>
-        <span>Whisky Bar</span><span class="mdot">✦</span>
-        <span>Tratamientos</span><span class="mdot">✦</span>
-        <span>Hot Towel</span><span class="mdot">✦</span>
-        <span>The Sovereign Experience</span><span class="mdot">✦</span>
-      </div>
-    </div>
-
     <!-- ══ BENTO SERVICIOS ══ -->
-    <section class="servicios" id="servicios">
-      <div class="section-header reveal-el">
-        <div class="section-eyebrow">Nuestros servicios</div>
-        <h2 class="section-title">El arte del<br><em>caballero moderno</em></h2>
-      </div>
+    <section class="servicios slide" id="servicios">
+      <div class="serv-card card-reveal">
 
-      <div class="bento-grid">
-
-        <!-- GRANDE: Corte Signature -->
-        <div class="bento-cell bento-hero reveal-el" data-tilt>
-          <div class="bento-bg">
-            <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=900&q=80&auto=format&fit=crop" alt="Corte Signature" class="bento-img">
-          </div>
-          <div class="bento-overlay-grad"></div>
-          <div class="bento-content">
-            <div class="bento-tag">Servicio Estrella</div>
-            <h3 class="bento-title">Corte<br><em>Signature</em></h3>
-            <p class="bento-desc">60 min de experiencia total. Consulta, lavado ritual, corte de precisión y acabado con navaja.</p>
-            <div class="bento-price">$850 MXN</div>
-          </div>
-          <div class="bento-glow"></div>
+        <div class="serv-header">
+          <div class="section-eyebrow">Nuestros servicios</div>
+          <h2 class="serv-heading">El arte del<br><em>caballero moderno</em></h2>
         </div>
 
-        <!-- Barba Ritual -->
-        <div class="bento-cell bento-sm reveal-el" data-tilt>
-          <div class="bento-bg">
-            <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&q=80&auto=format&fit=crop" alt="Barba Ritual" class="bento-img">
-          </div>
-          <div class="bento-overlay-grad"></div>
-          <div class="bento-content">
-            <div class="bento-tag">Ritual</div>
-            <h3 class="bento-title">Barba<br><em>Ritual</em></h3>
-            <div class="bento-price">$550 MXN</div>
-          </div>
-          <div class="bento-glow"></div>
-        </div>
+        <div class="serv-body">
+          <div class="serv-list">
 
-        <!-- Whisky Bar -->
-        <div class="bento-cell bento-sm bento-dark reveal-el" data-tilt>
-          <div class="bento-content bento-content-center">
-            <div class="bento-icon">◈</div>
-            <h3 class="bento-title">Whisky Bar</h3>
-            <p class="bento-desc-sm">Cortesía de la casa. Selección de single malts premium mientras esperas.</p>
-            <div class="bento-badge">Incluido</div>
-          </div>
-          <div class="bento-glow"></div>
-        </div>
-
-        <!-- Hot Towel -->
-        <div class="bento-cell bento-sm reveal-el" data-tilt>
-          <div class="bento-bg">
-            <img src="data:image/jpeg;base64,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" alt="Hot Towel" class="bento-img">
-          </div>
-          <div class="bento-overlay-grad"></div>
-          <div class="bento-content">
-            <div class="bento-tag">Clásico</div>
-            <h3 class="bento-title">Hot Towel<br><em>Shave</em></h3>
-            <div class="bento-price">$650 MXN</div>
-          </div>
-          <div class="bento-glow"></div>
-        </div>
-
-        <!-- Tratamientos -->
-        <div class="bento-cell bento-wide bento-accent reveal-el" data-tilt>
-          <div class="bento-bg">
-            <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8YmFyYmVyc2hvcHxlbnwwfHwwfHx8MA%3D%3D" alt="Tratamientos" class="bento-img">
-          </div>
-          <div class="bento-overlay-grad"></div>
-          <div class="bento-content bento-content-row">
-            <div>
-              <div class="bento-tag">Premium</div>
-              <h3 class="bento-title">Tratamientos<br><em>Capilares</em></h3>
+            <div class="serv-item is-active" data-img="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=1000&q=85&auto=format&fit=crop">
+              <div class="serv-item-row">
+                <span class="serv-num">01</span>
+                <div class="serv-item-text">
+                  <h3>Corte Signature</h3>
+                  <p>Consulta, lavado ritual, corte de precisión y acabado con navaja</p>
+                </div>
+                <span class="serv-price">$850 MXN</span>
+              </div>
             </div>
-            <div class="bento-right-col">
-              <p class="bento-desc">Keratina · Hidratación · Anti-caída · Color</p>
-              <div class="bento-price">Desde $1,200 MXN</div>
-            </div>
-          </div>
-          <div class="bento-glow"></div>
-        </div>
 
-        <!-- Stat -->
-        <div class="bento-cell bento-stat reveal-el">
-          <div class="bento-content bento-content-center">
-            <div class="stat-num">2,400<span>+</span></div>
-            <div class="stat-label">Clientes satisfechos<br>al año</div>
+            <div class="serv-item" data-img="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=1000&q=85&auto=format&fit=crop">
+              <div class="serv-item-row">
+                <span class="serv-num">02</span>
+                <div class="serv-item-text">
+                  <h3>Barba Ritual</h3>
+                  <p>Perfilado, hidratación y acabado de precisión</p>
+                </div>
+                <span class="serv-price">$550 MXN</span>
+              </div>
+            </div>
+
+            <div class="serv-item" data-img="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1000&q=85&auto=format&fit=crop">
+              <div class="serv-item-row">
+                <span class="serv-num">03</span>
+                <div class="serv-item-text">
+                  <h3>Hot Towel Shave</h3>
+                  <p>El clásico ritual de afeitado con toalla caliente</p>
+                </div>
+                <span class="serv-price">$650 MXN</span>
+              </div>
+            </div>
+
+            <div class="serv-item" data-img="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=1000&q=85&auto=format&fit=crop">
+              <div class="serv-item-row">
+                <span class="serv-num">04</span>
+                <div class="serv-item-text">
+                  <h3>Tratamientos Capilares</h3>
+                  <p>Keratina · Hidratación · Anti-caída · Color</p>
+                </div>
+                <span class="serv-price">Desde $1,200 MXN</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="serv-visual">
+            <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=1000&q=85&auto=format&fit=crop" alt="Servicio" class="serv-visual-img" id="servVisualImg">
           </div>
         </div>
 
@@ -197,7 +155,7 @@
     </section>
 
     <!-- ══ MAESTRO ══ -->
-    <section class="maestro" id="maestro">
+    <section class="maestro slide" id="maestro">
       <div class="maestro-inner">
 
         <div class="maestro-left card-reveal">
@@ -247,14 +205,14 @@
             </div>
           </div>
 
-          <a href="#reservar" class="btn-primary" style="margin-top:40px;display:inline-flex;">Reservar con Alessandro →</a>
+          <a href="#reservar" class="btn-primary" style="margin-top:22px;display:inline-flex;">Reservar con Alessandro →</a>
         </div>
 
       </div>
     </section>
 
     <!-- ══ FILOSOFIA ══ -->
-    <section class="filosofia" id="filosofia">
+    <section class="filosofia slide" id="filosofia">
       <div class="filosofia-bg">
         <img src="https://images.unsplash.com/photo-1572441713132-51c75654db73?w=1800&q=80&auto=format&fit=crop" alt="The Sovereign" class="filosofia-bg-img">
         <div class="filosofia-overlay"></div>
@@ -269,7 +227,7 @@
     </section>
 
     <!-- ══ RESERVAR ══ -->
-    <section class="reservar" id="reservar">
+    <section class="reservar slide" id="reservar">
       <div class="reservar-inner">
         <div class="reservar-left reveal-el">
           <div class="section-eyebrow">Reservaciones</div>
@@ -332,23 +290,23 @@
       </div>
     </section>
 
-  </main>
+    <!-- FOOTER -->
+    <footer class="footer slide">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-the">The</span>
+          <span class="footer-main nombre-negocio">Sovereign</span>
+        </div>
+        <div class="footer-links">
+          <a href="#servicios">Servicios</a>
+          <a href="#maestro">El Maestro</a>
+          <a href="#reservar">Reservar</a>
+        </div>
+        <div class="footer-copy">© 2026 The Sovereign · Barbería de Ultra Lujo · CDMX</div>
+      </div>
+    </footer>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <span class="footer-the">The</span>
-        <span class="footer-main nombre-negocio">Sovereign</span>
-      </div>
-      <div class="footer-links">
-        <a href="#servicios">Servicios</a>
-        <a href="#maestro">El Maestro</a>
-        <a href="#reservar">Reservar</a>
-      </div>
-      <div class="footer-copy">© 2026 The Sovereign · Barbería de Ultra Lujo · CDMX</div>
-    </div>
-  </footer>
+  </main>
 
   <script src="script.js"></script>
 <script>

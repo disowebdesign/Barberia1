@@ -1,6 +1,107 @@
 (function() {
 'use strict';
 
+/* ── SLIDESHOW (cambio de secciones tipo tarjetas) ── */
+const slides = Array.from(document.querySelectorAll('.slide'));
+const slidesMain = document.getElementById('slidesMain');
+const progressWrap = document.getElementById('slideProgress');
+let currentSlide = 0;
+let isAnimating = false;
+const ANIM_LOCK_MS = 950;
+
+if (slides.length && slidesMain) {
+  document.body.classList.add('slides-mode');
+
+  // Crear puntos de navegación
+  slides.forEach((s, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'slide-dot' + (i === 0 ? ' is-on' : '');
+    dot.addEventListener('click', () => goToSlide(i));
+    progressWrap.appendChild(dot);
+  });
+  const dots = Array.from(progressWrap.children);
+
+  function setSlideStates() {
+    slides.forEach((s, i) => {
+      s.classList.remove('is-current', 'is-prev');
+      if (i === currentSlide) {
+        s.classList.add('is-current');
+      } else if (i < currentSlide) {
+        s.classList.add('is-prev');
+      }
+    });
+    dots.forEach((d, i) => d.classList.toggle('is-on', i === currentSlide));
+    // Actualizar el hash de la URL sin saltar
+    const id = slides[currentSlide].id;
+    if (id) history.replaceState(null, '', '#' + id);
+  }
+
+  function triggerRevealsIn(slide) {
+    slide.querySelectorAll('.reveal-el, .card-reveal').forEach(el => {
+      el.classList.add('revealed');
+    });
+  }
+
+  function goToSlide(index) {
+    if (isAnimating) return;
+    const clamped = Math.max(0, Math.min(slides.length - 1, index));
+    if (clamped === currentSlide) return;
+    isAnimating = true;
+    currentSlide = clamped;
+    setSlideStates();
+    triggerRevealsIn(slides[currentSlide]);
+    const bf = document.getElementById('bookFloat');
+    if (bf) bf.style.opacity = currentSlide > 0 ? '1' : '0';
+    setTimeout(() => { isAnimating = false; }, ANIM_LOCK_MS);
+  }
+
+  // Inicializar estado
+  setSlideStates();
+  triggerRevealsIn(slides[0]);
+
+  // Wheel (desktop)
+  let wheelCooldown = false;
+  window.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    if (wheelCooldown || isAnimating) return;
+    wheelCooldown = true;
+    setTimeout(() => { wheelCooldown = false; }, 60);
+    if (e.deltaY > 12) goToSlide(currentSlide + 1);
+    else if (e.deltaY < -12) goToSlide(currentSlide - 1);
+  }, { passive: false });
+
+  // Touch (mobile)
+  let touchStartY = 0;
+  window.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  window.addEventListener('touchend', (e) => {
+    const diff = touchStartY - e.changedTouches[0].clientY;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) goToSlide(currentSlide + 1);
+      else goToSlide(currentSlide - 1);
+    }
+  }, { passive: true });
+
+  // Teclado
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); goToSlide(currentSlide + 1); }
+    if (e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); goToSlide(currentSlide - 1); }
+  });
+
+  // Links internos (#servicios, #maestro, etc) saltan al slide correcto
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const href = a.getAttribute('href');
+      const targetIndex = slides.findIndex(s => '#' + s.id === href);
+      if (targetIndex !== -1) {
+        e.preventDefault();
+        goToSlide(targetIndex);
+      }
+    });
+  });
+}
+
 /* ── CURSOR ── */
 const dot  = document.getElementById('cursor-dot');
 const ring = document.getElementById('cursor-ring');
@@ -18,24 +119,20 @@ document.addEventListener('mousemove', e => {
   requestAnimationFrame(animRing);
 })();
 
-document.querySelectorAll('a, button, .bento-cell, .maestro-img-wrap, input, select').forEach(el => {
+document.querySelectorAll('a, button, .serv-item, .maestro-img-wrap, input, select').forEach(el => {
   el.addEventListener('mouseenter', () => document.body.classList.add('is-hovering'));
   el.addEventListener('mouseleave', () => document.body.classList.remove('is-hovering'));
 });
 document.addEventListener('mousedown', () => document.body.classList.add('is-clicking'));
 document.addEventListener('mouseup',   () => document.body.classList.remove('is-clicking'));
 
-/* ── BOOK FLOAT VISIBILITY ── */
+/* ── BOOK FLOAT VISIBILITY (controlado por el slideshow, ver goToSlide) ── */
 const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  // Show/hide float button
-  const bookFloat = document.getElementById('bookFloat');
-  if (bookFloat) bookFloat.style.opacity = window.scrollY > 200 ? '1' : '0';
-}, { passive: true });
-// Start hidden
 const bookFloat = document.getElementById('bookFloat');
-if (bookFloat) bookFloat.style.opacity = '0';
-bookFloat.style.transition = 'opacity .5s, transform .4s, box-shadow .4s, background .3s';
+if (bookFloat) {
+  bookFloat.style.opacity = '0';
+  bookFloat.style.transition = 'opacity .5s, transform .4s, box-shadow .4s, background .3s';
+}
 
 /* ── MOBILE MENU ── */
 const burger = document.getElementById('navBurger');
@@ -64,15 +161,6 @@ if (burger) {
   });
 }
 
-/* ── HERO PARALLAX ── */
-const heroBgImg = document.getElementById('heroBgImg');
-window.addEventListener('scroll', () => {
-  if (heroBgImg) {
-    const y = window.scrollY * 0.3;
-    heroBgImg.style.transform = `translateY(${y}px) scale(1.05)`;
-  }
-}, { passive: true });
-
 /* ── MARQUEE ── */
 const track = document.getElementById('marqueeTrack');
 if (track) {
@@ -87,39 +175,24 @@ if (track) {
   })();
 }
 
-/* ── SCROLL REVEAL ── */
-const revealEls = document.querySelectorAll('.reveal-el, .card-reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
+/* ── SERVICIOS: imagen dinámica al hacer hover ── */
+const servItems = document.querySelectorAll('.serv-item');
+const servVisualImg = document.getElementById('servVisualImg');
+servItems.forEach(item => {
+  item.addEventListener('mouseenter', () => {
+    servItems.forEach(i => i.classList.remove('is-active'));
+    item.classList.add('is-active');
+    const newSrc = item.getAttribute('data-img');
+    if (servVisualImg && newSrc) {
+      servVisualImg.style.opacity = '0';
       setTimeout(() => {
-        entry.target.classList.add('revealed');
-      }, (i % 4) * 80);
-      observer.unobserve(entry.target);
+        servVisualImg.src = newSrc;
+        servVisualImg.style.opacity = '1';
+      }, 220);
     }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
-
-revealEls.forEach(el => observer.observe(el));
-
-/* ── BENTO TILT ── */
-document.querySelectorAll('.bento-cell[data-tilt]').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const rect = card.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top)  / rect.height - 0.5;
-    card.style.transform = `translateY(-6px) scale(1.01) rotateX(${-y * 6}deg) rotateY(${x * 6}deg)`;
-    card.style.transformStyle = 'preserve-3d';
-    const glow = card.querySelector('.bento-glow');
-    if (glow) {
-      glow.style.background = `radial-gradient(circle at ${(x+.5)*100}% ${(y+.5)*100}%, rgba(197,160,89,0.1), transparent 60%)`;
-    }
-  });
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = '';
-    card.style.transformStyle = '';
   });
 });
+
 
 /* ── FORM SUBMIT ── */
 const form = document.getElementById('reservarForm');
@@ -146,17 +219,5 @@ if (form) {
     });
   });
 }
-
-/* ── SMOOTH ANCHORS ── */
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      const top = target.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top, behavior: 'smooth' });
-    }
-  });
-});
 
 })();
