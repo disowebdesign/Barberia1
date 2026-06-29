@@ -59,46 +59,62 @@ if (slides.length && slidesMain) {
   setSlideStates();
   triggerRevealsIn(slides[0]);
 
-  // Wheel (desktop) — solo cambia slide si la tarjeta ya llegó al tope
+  // Helper: obtener el elemento scrolleable de la slide actual
+  function getScrollable() {
+    return slides[currentSlide].querySelector('[style*="overflow-y"]');
+  }
+
+  // Wheel (desktop)
   let wheelCooldown = false;
+
   window.addEventListener('wheel', (e) => {
-    const scrollable = slides[currentSlide].querySelector('.slide-card, .serv-card');
+    const scrollable = getScrollable();
+
     if (scrollable) {
-      const atBottom = scrollable.scrollHeight - scrollable.scrollTop - scrollable.clientHeight < 8;
-      const atTop    = scrollable.scrollTop < 8;
+      const atBottom = scrollable.scrollHeight - scrollable.scrollTop - scrollable.clientHeight < 10;
+      const atTop    = scrollable.scrollTop < 10;
       const goingDown = e.deltaY > 0;
       const goingUp   = e.deltaY < 0;
-      // Si hay contenido sin scrollear, dejar que haga scroll normal
+
+      // Si el elemento scrolleable aún tiene recorrido, no intervenir
       if (goingDown && !atBottom) return;
-      if (goingUp  && !atTop)    return;
+      if (goingUp   && !atTop)    return;
     }
+
+    // Solo llegamos aquí si no hay scroll pendiente
     e.preventDefault();
     if (wheelCooldown || isAnimating) return;
     wheelCooldown = true;
-    setTimeout(() => { wheelCooldown = false; }, 900);
-    if (e.deltaY > 12) goToSlide(currentSlide + 1);
-    else if (e.deltaY < -12) goToSlide(currentSlide - 1);
+    setTimeout(() => { wheelCooldown = false; }, 1000);
+    if (e.deltaY > 0) goToSlide(currentSlide + 1);
+    else              goToSlide(currentSlide - 1);
   }, { passive: false });
 
-  // Touch (mobile) — solo cambia slide si la tarjeta ya llegó al tope
+  // Touch (mobile)
   let touchStartY = 0;
+  let touchStartScrollTop = 0;
+
   window.addEventListener('touchstart', (e) => {
     touchStartY = e.touches[0].clientY;
+    const scrollable = getScrollable();
+    touchStartScrollTop = scrollable ? scrollable.scrollTop : 0;
   }, { passive: true });
+
   window.addEventListener('touchend', (e) => {
     const diff = touchStartY - e.changedTouches[0].clientY;
-    if (Math.abs(diff) < 80) return; // umbral más alto
+    if (Math.abs(diff) < 80) return;
 
-    const scrollable = slides[currentSlide].querySelector('.slide-card, .serv-card');
+    const scrollable = getScrollable();
     if (scrollable) {
       const atBottom = scrollable.scrollHeight - scrollable.scrollTop - scrollable.clientHeight < 12;
       const atTop    = scrollable.scrollTop < 12;
-      if (diff > 0 && !atBottom) return; // scrolleando hacia abajo, no llegó al fondo
-      if (diff < 0 && !atTop)    return; // scrolleando hacia arriba, no llegó al tope
+      // Si iba hacia abajo y no está al fondo, o iba hacia arriba y no está al tope → no cambiar
+      if (diff > 0 && !atBottom) return;
+      if (diff < 0 && !atTop)    return;
     }
 
     if (diff > 0) goToSlide(currentSlide + 1);
-    else goToSlide(currentSlide - 1);
+    else          goToSlide(currentSlide - 1);
   }, { passive: true });
 
   // Teclado
