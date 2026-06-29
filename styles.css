@@ -251,7 +251,7 @@ a { text-decoration:none; color:inherit; }
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
   background: var(--black);
-  padding: 90px 24px 130px;
+  padding: 105px 24px 130px;
 }
 .hero-bg {
   position: absolute;
@@ -271,7 +271,7 @@ a { text-decoration:none; color:inherit; }
 }
 
 .hero-logo {
-  position: absolute; top: 40px; left: 0; right: 0;
+  position: absolute; top: 6px; left: 0; right: 0;
   margin: 0 auto;
   width: fit-content;
   z-index: 3;
@@ -293,7 +293,7 @@ a { text-decoration:none; color:inherit; }
 }
 .hero-logo-orn {
   display: flex; align-items: center; gap: 8px;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 .hero-logo-orn::before, .hero-logo-orn::after {
   content: ''; width: 26px; height: 1px; background: var(--gold); opacity: .5;
