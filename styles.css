@@ -140,8 +140,8 @@ a { text-decoration:none; color:inherit; }
 
 /* ── NAVBAR (cápsula flotante estilo Porem) ── */
 .navbar {
-  position: absolute; left: 0; right: 0; bottom: 32px; z-index: 50;
-  margin: 0 auto;
+  position: fixed; left: 50%; bottom: 32px; z-index: 400;
+  transform: translateX(-50%);
   width: fit-content;
   padding: 0;
   background: rgba(13,13,13,0.85);
@@ -150,6 +150,13 @@ a { text-decoration:none; color:inherit; }
   border: 1px solid var(--glass-border);
   border-radius: 100px;
   box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s var(--ease);
+}
+.navbar.hero-reveal {
+  animation: heroRise 1s var(--ease) 1.05s forwards;
+  pointer-events: auto;
 }
 .navbar-inner {
   display: flex; align-items: center; justify-content: center;
@@ -298,7 +305,7 @@ a { text-decoration:none; color:inherit; }
 }
 
 .hero-logo {
-  position: absolute; top: 6px; left: 0; right: 0;
+  position: absolute; top: 10px; left: 0; right: 0;
   margin: 0 auto;
   width: fit-content;
   z-index: 3;
@@ -340,6 +347,7 @@ a { text-decoration:none; color:inherit; }
   display: flex; flex-direction: column; align-items: center;
   text-align: center;
   padding-bottom: 120px;
+  padding-top: 40px;
 }
 .hero-eyebrow {
   font-family: var(--font-sans);
@@ -396,6 +404,9 @@ a { text-decoration:none; color:inherit; }
   height: 100%;
   display: flex; align-items: center; justify-content: center;
   padding: 100px 16px 30px;
+}
+@media (max-width: 900px) {
+  .servicios { padding: 16px 10px 16px; }
 }
 .serv-card {
   width: min(1750px, 97vw);
@@ -781,7 +792,7 @@ a { text-decoration:none; color:inherit; }
   /* Reservar mobile */
   .reservar-inner { grid-template-columns: 1fr; gap: 20px; padding: 20px 16px 80px; }
 
-  .navbar { left: auto; right: 20px; transform: none; bottom: 20px; border-radius: 50%; }
+  .navbar { position: fixed; left: auto; right: 16px; transform: none; bottom: 16px; border-radius: 50%; z-index: 400; opacity: 1 !important; pointer-events: auto !important; }
   .navbar-inner { height: 56px; padding: 0; width: 56px; }
   .nav-links { display: none; }
   .nav-burger { display: flex; }
@@ -790,8 +801,9 @@ a { text-decoration:none; color:inherit; }
   .footer-inner { flex-direction: column; padding: 0 24px; text-align: center; }
   .footer-links { flex-wrap: wrap; justify-content: center; }
   .hero-content { padding: 8px 24px 100px; }
-  .hero-eyebrow { margin-bottom: 14px; font-size: 9px; letter-spacing: 2px; }
-  .hero-logo { top: 12px; }
+  .hero-eyebrow { margin-bottom: 14px; font-size: 9px; letter-spacing: 2px; margin-top: 0; }
+  .hero-logo { top: 6px; }
+  .hero-content-centered { padding-top: 16px; }
   .hero-logo-main { font-size: 38px; }
   .filosofia-content { padding: 0 24px; }
   .nosotros-content { padding: 24px 20px 60px; }
@@ -800,17 +812,29 @@ a { text-decoration:none; color:inherit; }
   .book-float {
     bottom: 16px; right: auto; left: 50%;
     transform: translateX(-50%);
-    padding: 0; width: 46px; height: 46px;
+    padding: 0; width: 52px; height: 52px;
     border-radius: 50%;
     justify-content: center;
     z-index: 9999;
   }
   .book-float:hover { transform: translateX(-50%) translateY(-3px); }
   .book-float-line { display: none; }
-  .book-float span:not(.book-float-line) { font-size: 0; }
-  .book-float span:not(.book-float-line)::before {
-    content: '✂';
-    font-size: 17px;
+  .book-float span:not(.book-float-line) { font-size: 0; width: 0; overflow: hidden; }
+  .book-float::after {
+    content: '';
+    display: block;
+    width: 22px;
+    height: 22px;
+    background-color: var(--black);
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 7h4l2 10h8l2-10h4'/%3E%3Cpath d='M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2'/%3E%3Cline x1='12' y1='12' x2='12' y2='16'/%3E%3Cline x1='10' y1='14' x2='14' y2='14'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 7h4l2 10h8l2-10h4'/%3E%3Cpath d='M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2'/%3E%3Cline x1='12' y1='12' x2='12' y2='16'/%3E%3Cline x1='10' y1='14' x2='14' y2='14'/%3E%3C/svg%3E");
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-position: center;
+    mask-position: center;
+    flex-shrink: 0;
   }
   .slide-card { margin: 8px 6px; }
 }
