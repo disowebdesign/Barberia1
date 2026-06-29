@@ -563,19 +563,79 @@ a { text-decoration:none; color:inherit; }
 }
 .ms-sep { width: 1px; height: 48px; background: rgba(255,255,255,.08); }
 
-/* ══ FILOSOFIA ══ */
+/* ══ NOSOTROS ══ */
 .filosofia {
   height: 100%;
   display: flex; align-items: center; justify-content: center;
 }
-.filosofia-bg { position: absolute; inset: 0; border-radius: inherit; }
-.filosofia-bg-img { filter: brightness(.12) saturate(.5); border-radius: inherit; }
-.filosofia-overlay {
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at center, rgba(13,13,13,.6) 0%, rgba(13,13,13,.95) 100%);
-  border-radius: inherit;
+.nosotros-content {
+  max-width: 700px; width: 100%;
+  margin: 0 auto;
+  padding: 48px 44px;
 }
-.filosofia-content { position: relative; z-index: 2; padding: 40px 60px; max-width: 900px; margin: 0 auto; text-align: center; }
+.nosotros-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 54px);
+  font-weight: 400; line-height: 1.08; letter-spacing: -.5px;
+  margin-bottom: 20px;
+}
+.nosotros-title em { font-style: italic; color: var(--gold); }
+.nosotros-divider { width: 40px; height: 1px; background: var(--gold); opacity: .4; margin-bottom: 22px; }
+.nosotros-text {
+  font-size: 14px; font-weight: 300;
+  color: rgba(242,237,230,.6); line-height: 1.8;
+  margin-bottom: 16px;
+}
+.nosotros-stats {
+  display: flex; align-items: center; gap: 24px;
+  margin-top: 32px; padding-top: 28px;
+  border-top: 1px solid rgba(255,255,255,.07);
+}
+.ns-item { text-align: center; }
+.ns-num {
+  font-family: var(--font-display);
+  font-size: 32px; font-weight: 700; color: var(--gold);
+  letter-spacing: -1px; line-height: 1; margin-bottom: 6px;
+}
+.ns-label {
+  font-family: var(--font-sans);
+  font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: rgba(242,237,230,.35); line-height: 1.5;
+}
+.ns-sep { width: 1px; height: 44px; background: rgba(255,255,255,.08); }
+
+/* ── MOBILE MENU logo ── */
+.mm-logo {
+  display: flex; flex-direction: column; align-items: center;
+  line-height: 1; cursor: none; text-decoration: none;
+  margin-bottom: 4px;
+}
+.mm-logo-the {
+  font-family: var(--font-body);
+  font-size: 9px; letter-spacing: 5px; text-transform: uppercase;
+  color: var(--gold); font-weight: 300; margin-bottom: 2px;
+}
+.mm-logo-main {
+  font-family: var(--font-gothic);
+  font-size: 44px; font-weight: 400;
+  color: var(--cream); line-height: 1;
+}
+.mm-logo-orn {
+  display: flex; align-items: center; gap: 8px; margin-top: 2px;
+}
+.mm-logo-orn::before, .mm-logo-orn::after {
+  content: ''; width: 22px; height: 1px; background: var(--gold); opacity: .5;
+}
+.mm-logo-orn span {
+  font-family: var(--font-sans);
+  font-size: 7px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); opacity: .8;
+}
+.mm-divider {
+  width: 40px; height: 1px;
+  background: rgba(197,160,89,.3);
+  margin: 8px 0 4px;
+}
 .filosofia-quote {
   font-family: var(--font-display);
   font-size: clamp(32px, 4vw, 56px);
@@ -729,10 +789,13 @@ a { text-decoration:none; color:inherit; }
   .serv-body { grid-template-columns: 1fr; gap: 16px; }
   .footer-inner { flex-direction: column; padding: 0 24px; text-align: center; }
   .footer-links { flex-wrap: wrap; justify-content: center; }
-  .hero-content { padding: 40px 24px 100px; }
+  .hero-content { padding: 8px 24px 100px; }
+  .hero-eyebrow { margin-bottom: 14px; font-size: 9px; letter-spacing: 2px; }
   .hero-logo { top: 12px; }
   .hero-logo-main { font-size: 38px; }
   .filosofia-content { padding: 0 24px; }
+  .nosotros-content { padding: 24px 20px 60px; }
+  .nosotros-stats { gap: 14px; }
   .form-row { grid-template-columns: 1fr; }
   .book-float {
     bottom: 16px; right: auto; left: 50%;
