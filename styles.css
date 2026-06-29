@@ -32,32 +32,44 @@ body {
   cursor: default;
 }
 
-/* ── SLIDESHOW (cambio de tarjetas tipo pantalla completa) ── */
+/* ── SLIDESHOW — animación tipo mazo de cartas ── */
 body.slides-mode { overflow: hidden; height: 100vh; }
 main.slides-main {
   height: 100vh;
   overflow: hidden;
   position: relative;
+  perspective: 1400px;
 }
+
+/* Estado base: esperando debajo */
 .slide {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100vh;
   overflow: hidden;
-  transform: translateY(100%);
+  transform: translateY(110%) scale(0.9);
   opacity: 0;
   visibility: hidden;
-  transition: transform .9s var(--ease), opacity .7s var(--ease);
+  transition:
+    transform .85s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity   .6s  cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
+  transform-origin: center bottom;
+  will-change: transform, opacity;
 }
+
+/* Tarjeta activa */
 .slide.is-current {
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
 }
+
+/* Tarjeta que sale: vuela arriba y se reduce */
 .slide.is-prev {
-  transform: translateY(-100%);
+  transform: translateY(-108%) scale(0.93);
   opacity: 0;
+  transform-origin: center top;
 }
 .slide-progress {
   position: fixed;
@@ -78,6 +90,21 @@ main.slides-main {
 
 img { display:block; width:100%; height:100%; object-fit:cover; }
 a { text-decoration:none; color:inherit; }
+
+/* ══ TARJETA FLOTANTE — estilo universal para todas las secciones ══ */
+.slide-card {
+  position: absolute;
+  inset: 0;
+  margin: 20px 16px;
+  border: 1.5px solid var(--cream);
+  border-radius: 22px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 700px) {
+  .slide-card { margin: 12px 10px; border-radius: 16px; }
+}
 
 /* ── GRAIN ── */
 .grain-overlay {
@@ -380,7 +407,10 @@ a { text-decoration:none; color:inherit; }
   box-shadow: 0 30px 80px rgba(0,0,0,.55);
   display: flex; flex-direction: column;
   gap: 28px;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
+.serv-card::-webkit-scrollbar { display: none; }
 .serv-header { text-align: center; }
 .serv-heading {
   font-family: var(--font-display);
@@ -456,14 +486,11 @@ a { text-decoration:none; color:inherit; }
 .maestro {
   height: 100%;
   display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(to bottom, transparent, rgba(28,28,28,.4), transparent);
-  padding: 100px 16px 30px;
 }
 .maestro-inner {
-  max-width: 1320px; width: 100%; margin: 0 auto; padding: 0 44px;
+  max-width: 1320px; width: 100%; margin: 0 auto; padding: 44px;
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 56px; align-items: center;
-  max-height: 100%;
 }
 .maestro-left {
   position: relative;
@@ -538,17 +565,17 @@ a { text-decoration:none; color:inherit; }
 
 /* ══ FILOSOFIA ══ */
 .filosofia {
-  position: relative; height: 100%;
+  height: 100%;
   display: flex; align-items: center; justify-content: center;
-  overflow: hidden; text-align: center;
 }
-.filosofia-bg { position: absolute; inset: 0; }
-.filosofia-bg-img { filter: brightness(.12) saturate(.5); }
+.filosofia-bg { position: absolute; inset: 0; border-radius: inherit; }
+.filosofia-bg-img { filter: brightness(.12) saturate(.5); border-radius: inherit; }
 .filosofia-overlay {
   position: absolute; inset: 0;
   background: radial-gradient(ellipse at center, rgba(13,13,13,.6) 0%, rgba(13,13,13,.95) 100%);
+  border-radius: inherit;
 }
-.filosofia-content { position: relative; z-index: 2; padding: 0 60px; max-width: 900px; margin: 0 auto; }
+.filosofia-content { position: relative; z-index: 2; padding: 40px 60px; max-width: 900px; margin: 0 auto; text-align: center; }
 .filosofia-quote {
   font-family: var(--font-display);
   font-size: clamp(32px, 4vw, 56px);
@@ -566,13 +593,11 @@ a { text-decoration:none; color:inherit; }
 .reservar {
   height: 100%;
   display: flex; align-items: center; justify-content: center;
-  padding: 100px 16px 30px;
 }
 .reservar-inner {
-  max-width: 1320px; width: 100%; margin: 0 auto; padding: 0 44px;
+  max-width: 1320px; width: 100%; margin: 0 auto; padding: 44px;
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 56px; align-items: center;
-  max-height: 100%;
 }
 .reservar-title {
   font-family: var(--font-display);
@@ -674,13 +699,13 @@ a { text-decoration:none; color:inherit; }
 @media (max-width: 900px) {
   .hero { padding: 100px 12px 120px; }
   .hero-bg { width: 96vw; height: 58vh; border-width: 6px; border-radius: 12px; }
-  .maestro-inner, .reservar-inner { grid-template-columns: 1fr; gap: 24px; }
+  .maestro-inner { grid-template-columns: 1fr; gap: 24px; padding: 24px 16px; }
+  .reservar-inner { grid-template-columns: 1fr; gap: 24px; padding: 24px 16px; }
   .navbar { left: auto; right: 20px; transform: none; bottom: 20px; border-radius: 50%; }
   .navbar-inner { height: 56px; padding: 0; width: 56px; }
   .nav-links { display: none; }
   .nav-burger { display: flex; }
-  .servicios, .maestro, .reservar { padding: 90px 12px 24px; }
-  .serv-card { padding: 24px; }
+  .serv-card { padding: 24px 16px; }
   .serv-body { grid-template-columns: 1fr; gap: 20px; overflow-y: auto; }
   .maestro-left { padding: 12px; }
   .maestro-right { padding: 24px; }
@@ -692,19 +717,20 @@ a { text-decoration:none; color:inherit; }
   .filosofia-content { padding: 0 24px; }
   .form-row { grid-template-columns: 1fr; }
   .book-float {
-    bottom: 20px; right: auto; left: 16px;
+    bottom: 20px; right: auto; left: 50%;
+    transform: translateX(-50%);
     padding: 0; width: 50px; height: 50px;
     border-radius: 50%;
     justify-content: center;
   }
+  .book-float:hover { transform: translateX(-50%) translateY(-3px); }
   .book-float-line { display: none; }
-  .book-float span:not(.book-float-line) {
-    font-size: 0;
-  }
+  .book-float span:not(.book-float-line) { font-size: 0; }
   .book-float span:not(.book-float-line)::before {
     content: '✂';
     font-size: 18px;
   }
+  .slide-card { margin: 8px 6px; }
 }
 @media (max-width: 600px) {
 
