@@ -50,8 +50,6 @@ if (slides.length && slidesMain) {
     currentSlide = clamped;
     setSlideStates();
     triggerRevealsIn(slides[currentSlide]);
-    const bf = document.getElementById('bookFloat');
-    if (bf) bf.style.opacity = currentSlide > 0 ? '1' : '0';
     setTimeout(() => { isAnimating = false; }, ANIM_LOCK_MS);
   }
 
@@ -159,14 +157,6 @@ document.querySelectorAll('a, button, .serv-item, .maestro-img-wrap, input, sele
 });
 document.addEventListener('mousedown', () => document.body.classList.add('is-clicking'));
 document.addEventListener('mouseup',   () => document.body.classList.remove('is-clicking'));
-
-/* ── BOOK FLOAT VISIBILITY (controlado por el slideshow, ver goToSlide) ── */
-const navbar = document.getElementById('navbar');
-const bookFloat = document.getElementById('bookFloat');
-if (bookFloat) {
-  bookFloat.style.opacity = '0';
-  bookFloat.style.transition = 'opacity .5s, transform .4s, box-shadow .4s, background .3s';
-}
 
 /* ── MOBILE MENU ── */
 const burger = document.getElementById('navBurger');
