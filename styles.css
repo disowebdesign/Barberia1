@@ -699,16 +699,34 @@ a { text-decoration:none; color:inherit; }
 @media (max-width: 900px) {
   .hero { padding: 100px 12px 120px; }
   .hero-bg { width: 96vw; height: 58vh; border-width: 6px; border-radius: 12px; }
-  .maestro-inner { grid-template-columns: 1fr; gap: 24px; padding: 24px 16px; }
-  .reservar-inner { grid-template-columns: 1fr; gap: 24px; padding: 24px 16px; }
+
+  /* Maestro mobile: columna única, scroll */
+  .maestro-inner {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px 16px 80px;
+    align-items: start;
+  }
+  .maestro-left { padding: 10px; }
+  .maestro-img {
+    height: clamp(180px, 36vw, 240px) !important;
+  }
+  .maestro-img-border { display: none; }
+  .maestro-img-tag { bottom: -8px; right: -4px; padding: 7px 12px; font-size: 8px; }
+  .maestro-right { padding: 18px; }
+  .maestro-title { font-size: clamp(22px, 6vw, 30px); }
+  .maestro-stats { gap: 12px; margin-top: 16px; }
+  .ms-num { font-size: 24px; }
+
+  /* Reservar mobile */
+  .reservar-inner { grid-template-columns: 1fr; gap: 20px; padding: 20px 16px 80px; }
+
   .navbar { left: auto; right: 20px; transform: none; bottom: 20px; border-radius: 50%; }
   .navbar-inner { height: 56px; padding: 0; width: 56px; }
   .nav-links { display: none; }
   .nav-burger { display: flex; }
-  .serv-card { padding: 24px 16px; }
-  .serv-body { grid-template-columns: 1fr; gap: 20px; overflow-y: auto; }
-  .maestro-left { padding: 12px; }
-  .maestro-right { padding: 24px; }
+  .serv-card { padding: 20px 14px; }
+  .serv-body { grid-template-columns: 1fr; gap: 16px; }
   .footer-inner { flex-direction: column; padding: 0 24px; text-align: center; }
   .footer-links { flex-wrap: wrap; justify-content: center; }
   .hero-content { padding: 40px 24px 100px; }
@@ -717,18 +735,19 @@ a { text-decoration:none; color:inherit; }
   .filosofia-content { padding: 0 24px; }
   .form-row { grid-template-columns: 1fr; }
   .book-float {
-    bottom: 20px; right: auto; left: 50%;
+    bottom: 16px; right: auto; left: 50%;
     transform: translateX(-50%);
-    padding: 0; width: 50px; height: 50px;
+    padding: 0; width: 46px; height: 46px;
     border-radius: 50%;
     justify-content: center;
+    z-index: 9999;
   }
   .book-float:hover { transform: translateX(-50%) translateY(-3px); }
   .book-float-line { display: none; }
   .book-float span:not(.book-float-line) { font-size: 0; }
   .book-float span:not(.book-float-line)::before {
     content: '✂';
-    font-size: 18px;
+    font-size: 17px;
   }
   .slide-card { margin: 8px 6px; }
 }
